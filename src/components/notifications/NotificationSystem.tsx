@@ -24,6 +24,11 @@ export const NotificationSystem: React.FC<NotificationSystemProps> = ({
   const { refreshLeaderboard } = useLeaderboard();
   const { showToast } = useToast();
 
+  // Remove a notification
+  const removeNotification = useCallback((id: string) => {
+    setNotifications((prev) => prev.filter((notif) => notif.id !== id));
+  }, []);
+
   // Add a new notification
   const addNotification = useCallback(
     (notification: Omit<Notification, "id" | "timestamp">) => {
@@ -41,13 +46,8 @@ export const NotificationSystem: React.FC<NotificationSystemProps> = ({
         removeNotification(newNotification.id);
       }, newNotification.duration);
     },
-    []
+    [removeNotification]
   );
-
-  // Remove a notification
-  const removeNotification = useCallback((id: string) => {
-    setNotifications((prev) => prev.filter((notif) => notif.id !== id));
-  }, []);
 
   // Handle high score notifications
   const handleHighScoreNotification = useCallback(

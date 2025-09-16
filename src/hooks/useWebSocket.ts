@@ -69,12 +69,13 @@ export const useWebSocket = () => {
   useEffect(() => {
     return () => {
       // Unsubscribe all handlers
-      handlersRef.current.forEach((handlers, action) => {
+      const handlersMap = handlersRef.current;
+      handlersMap.forEach((handlers, action) => {
         handlers.forEach((handler) => {
           websocketService.off(action, handler);
         });
       });
-      handlersRef.current.clear();
+      handlersMap.clear();
     };
   }, []);
 
